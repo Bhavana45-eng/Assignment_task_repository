@@ -1,0 +1,229 @@
+/* styles.css */
+
+/* 1) Import font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* 2) Theme Variables */
+:root {
+  --bg-color: #f9f9f9;
+  --text-color: #333;
+  --header-bg: #2c3e50;
+  --header-text: #ecf0f1;
+  --card-bg: #fff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --input-bg: #fff;
+  --input-text: #333;
+  --btn-bg: #3498db;
+  --btn-text: #fff;
+  --btn-hover: #2980b9;
+  --priority-low: #27ae60;
+  --priority-med: #f1c40f;
+  --priority-high: #e74c3c;
+  --notif-bg: #3498db;
+  --notif-text: #fff;
+  --transition: 0.3s;
+}
+
+html[data-theme="dark"] {
+  --bg-color: #2c3e50;
+  --text-color: #ecf0f1;
+  --header-bg: #1a252f;
+  --header-text: #ecf0f1;
+  --card-bg: #34495e;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --input-bg: #2c3e50;
+  --input-text: #ecf0f1;
+  --btn-bg: #2980b9;
+  --btn-text: #ecf0f1;
+  --btn-hover: #1f638c;
+  --priority-low: #2ecc71;
+  --priority-med: #f39c12;
+  --priority-high: #c0392b;
+  --notif-bg: #27ae60;
+  --notif-text: #ecf0f1;
+}
+
+/* 3) Base Styles */
+* {
+  box-sizing: border-box;
+  transition: background-color var(--transition), color var(--transition);
+}
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 4) Header */
+header {
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#theme-toggle {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+#theme-toggle:hover {
+  background: var(--btn-hover);
+}
+
+/* 5) Controls Section */
+.controls {
+  padding: 1rem 2rem;
+  background: var(--header-bg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+#task-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  flex: 2;
+}
+#task-form input,
+#task-form select,
+#task-form button {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: var(--input-bg);
+  color: var(--input-text);
+  transition: border-color var(--transition);
+}
+#task-form input:focus,
+#task-form select:focus {
+  outline: none;
+  border-color: var(--btn-bg);
+}
+#task-form button {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+#task-form button:hover {
+  background: var(--btn-hover);
+}
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex: 1;
+}
+.filters input,
+.filters select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: var(--input-bg);
+  color: var(--input-text);
+}
+
+/* 6) Task List */
+#task-list {
+  list-style: none;
+  padding: 1rem 2rem;
+  margin: 0;
+  flex: 1;
+}
+.task-item {
+  background: var(--card-bg);
+  box-shadow: 0 2px 4px var(--card-shadow);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-item.completed .title {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.task-details {
+  flex: 1;
+}
+.title {
+  font-weight: 500;
+  margin: 0;
+}
+.task-details p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+.task-details small {
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+/* 7) Badges */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #fff;
+  margin-right: 0.5rem;
+}
+.badge.priority-low   { background: var(--priority-low); }
+.badge.priority-med   { background: var(--priority-med); }
+.badge.priority-high  { background: var(--priority-high); }
+
+/* 8) Buttons */
+.buttons button {
+  background: transparent;
+  border: 1px solid var(--btn-bg);
+  color: var(--btn-bg);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+  transition: background-color var(--transition), color var(--transition);
+}
+.buttons button:hover {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+/* 9) Notifications */
+#notification-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.notification {
+  background: var(--notif-bg);
+  color: var(--notif-text);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px var(--card-shadow);
+}
+
+/* 10) Responsive */
+@media (max-width: 700px) {
+  .controls { flex-direction: column; }
+  #task-form { flex-direction: column; }
+}
