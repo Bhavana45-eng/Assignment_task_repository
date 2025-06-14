@@ -1,6 +1,6 @@
 /* styles.css */
 
-/* 1) Import a clean, modern font */
+/* 1) Import font */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 /* 2) Color & Theme Variables */
@@ -10,8 +10,8 @@
   --accent:                  #536DFE;
   --accent-hover:            #3D5AFE;
   --card-bg:                 #ffffff;
-  --shadow-light:            rgba(0, 0, 0, 0.05);
-  --shadow-dark:             rgba(0, 0, 0, 0.15);
+  --shadow-light:            rgba(0,0,0,0.05);
+  --shadow-dark:             rgba(0,0,0,0.15);
   --input-bg:                #ffffff;
   --input-border:            #ccd4e0;
   --notif-bg:                #536DFE;
@@ -21,29 +21,29 @@
   --notif-urgent-bg:         #e74c3c;
   --notif-urgent-text:       #ffffff;
   --priority-low:            #43A047;
-  --priority-med:            #F9A825;
+  --priority-medium:         #F9A825;
   --priority-high:           #E53935;
   --transition:              0.3s ease;
 }
 
+/* Dark theme overrides */
 html[data-theme="dark"] {
-  --bg:                      #2d3e50;
-  --fg:                      #eceff1;
-  --accent:                  #7986CB;
-  --accent-hover:            #5C6BC0;
-  --card-bg:                 #37474F;
-  --shadow-light:            rgba(0, 0, 0, 0.1);
-  --shadow-dark:             rgba(0, 0, 0, 0.3);
-  --input-bg:                #455A64;
-  --input-border:            #607D8B;
-  --notif-bg:                #43A047;
-  /* high-priority and urgent stay the same here */
+  --bg:                  #2d3e50;
+  --fg:                  #eceff1;
+  --accent:              #7986CB;
+  --accent-hover:        #5C6BC0;
+  --card-bg:             #37474F;
+  --shadow-light:        rgba(0,0,0,0.1);
+  --shadow-dark:         rgba(0,0,0,0.3);
+  --input-bg:            #455A64;
+  --input-border:        #607D8B;
+  --notif-bg:            #43A047;
 }
 
-/* 3) Global & Layout */
+/* 3) Global & Base */
 * {
   box-sizing: border-box;
-  transition: all var(--transition);
+  transition: background-color var(--transition), color var(--transition), transform var(--transition);
 }
 
 body {
@@ -56,25 +56,24 @@ body {
   min-height: 100vh;
 }
 
+/* 4) Container adjusts per screen */
 .container {
   width: 90%;
-  max-width: 800px;
   margin: 2rem auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* 4) Header & Theme Toggle */
+/* 5) Header & Toggle */
 header {
   background: var(--accent);
   color: var(--notif-fg);
-  padding: 1rem 2rem;
+  padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 #theme-toggle {
   background: transparent;
   border: 2px solid var(--notif-fg);
@@ -88,7 +87,7 @@ header {
   color: var(--accent);
 }
 
-/* 5) Controls & Filters */
+/* 6) Controls & Filters */
 .controls {
   display: flex;
   flex-wrap: wrap;
@@ -125,8 +124,8 @@ header {
 
 #task-form button {
   background: var(--accent);
-  border: none;
   color: var(--notif-fg);
+  border: none;
   cursor: pointer;
 }
 #task-form button:hover {
@@ -147,7 +146,7 @@ header {
   color: var(--fg);
 }
 
-/* 6) Task List & Cards */
+/* 7) Task List & Cards */
 #task-list {
   list-style: none;
   padding: 0;
@@ -165,12 +164,12 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform var(--transition), box-shadow var(--transition);
 }
 .task-item:hover {
-  transform: translateY(-2px) scale(1.01);
+  transform: translateY(-2px);
   box-shadow: 0 4px 8px var(--shadow-dark);
 }
+
 .task-item.completed .title {
   text-decoration: line-through;
   opacity: 0.6;
@@ -188,7 +187,7 @@ header {
   font-size: 0.9rem;
 }
 
-/* 7) Badges */
+/* 8) Badges */
 .badge {
   display: inline-block;
   padding: 0.25rem 0.5rem;
@@ -198,10 +197,10 @@ header {
   margin-right: 0.5rem;
 }
 .badge.priority-low    { background: var(--priority-low); }
-.badge.priority-medium { background: var(--priority-med); }  /* fixed class name */
+.badge.priority-medium { background: var(--priority-medium); }
 .badge.priority-high   { background: var(--priority-high); }
 
-/* 8) Button group */
+/* 9) Buttons */
 .buttons button {
   background: transparent;
   border: 1px solid var(--accent);
@@ -210,22 +209,17 @@ header {
   border-radius: 4px;
   cursor: pointer;
   margin-left: 0.5rem;
-  transition: all var(--transition);
 }
 .buttons button:hover {
   background: var(--accent);
   color: var(--notif-fg);
-  transform: scale(1.05);
 }
 
-/* 9) Notifications & Variants */
+/* 10) Notifications */
 @keyframes fadeInOut {
-  0%   { opacity: 0; transform: translateY(-10px); }
-  10%  { opacity: 1; transform: translateY(0); }
-  90%  { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-10px); }
+  0%, 100% { opacity: 0; transform: translateY(-10px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
 }
-
 #notification-container {
   position: fixed;
   top: 1rem;
@@ -235,30 +229,92 @@ header {
   gap: 0.5rem;
   pointer-events: none;
 }
-
 .notification {
   background: var(--notif-bg);
   color: var(--notif-fg);
   padding: 0.75rem 1rem;
   border-radius: 4px;
-  box-shadow: 0 2px 4px var(--shadow-dark);
   animation: fadeInOut 4s ease forwards;
 }
-
-/* High-priority variant */
 .notification.high-priority {
   background: var(--notif-high-priority-bg);
   color: var(--notif-high-priority-text);
 }
-
-/* Urgent variant */
 .notification.urgent {
   background: var(--notif-urgent-bg);
   color: var(--notif-urgent-text);
 }
 
-/* 10) Responsive Breakpoint */
+/* 11) Responsive Breakpoints */
+
+/* Mobile: up to 600px */
 @media (max-width: 600px) {
-  .controls { flex-direction: column; }
-  #task-form { flex-direction: column; }
+  .container {
+    width: 95%;
+    margin: 1rem auto;
+  }
+  header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .controls {
+    flex-direction: column;
+  }
+  #task-form,
+  .filters {
+    width: 100%;
+  }
+  #task-form input,
+  #task-form select,
+  #task-form button,
+  .filters input,
+  .filters select {
+    width: 100%;
+  }
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .buttons {
+    margin-top: 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+/* Tablet: 601px to 900px */
+@media (min-width: 601px) and (max-width: 900px) {
+  .container {
+    width: 90%;
+    max-width: 700px;
+  }
+  #task-form input,
+  #task-form select,
+  #task-form button {
+    flex: 1 1 45%;
+  }
+  .filters input,
+  .filters select {
+    flex: 1 1 30%;
+  }
+}
+
+/* Laptop/Desktop: 901px and above */
+@media (min-width: 901px) {
+  .container {
+    width: 80%;
+    max-width: 900px;
+  }
+  #task-form input,
+  #task-form select {
+    flex: 1 1 20%;
+  }
+  #task-form button {
+    flex: 1 1 10%;
+  }
+  .filters input,
+  .filters select {
+    flex: 1 1 25%;
+  }
 }
