@@ -1,51 +1,50 @@
 /* styles.css */
 
-/* 1) Import font */
+/* 1) Font */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-/* 2) Color & Theme Variables */
+/* 2) Theme & Colors */
 :root {
-  --bg:                      #f5f7fa;
-  --fg:                      #2d3e50;
-  --accent:                  #536DFE;
-  --accent-hover:            #3D5AFE;
-  --card-bg:                 #ffffff;
-  --shadow-light:            rgba(0,0,0,0.05);
-  --shadow-dark:             rgba(0,0,0,0.15);
-  --input-bg:                #ffffff;
-  --input-border:            #ccd4e0;
-  --notif-bg:                #536DFE;
-  --notif-fg:                #ffffff;
-  --notif-high-priority-bg:  #f39c12;
-  --notif-high-priority-text:#ffffff;
-  --notif-urgent-bg:         #e74c3c;
-  --notif-urgent-text:       #ffffff;
-  --priority-low:            #43A047;
-  --priority-medium:         #F9A825;
-  --priority-high:           #E53935;
-  --transition:              0.3s ease;
+  --bg:                       #f5f7fa;
+  --fg:                       #2d3e50;
+  --accent:                   #536DFE;
+  --accent-hover:             #3D5AFE;
+  --card-bg:                  #ffffff;
+  --shadow-light:             rgba(0,0,0,0.05);
+  --shadow-dark:              rgba(0,0,0,0.15);
+  --input-bg:                 #ffffff;
+  --input-border:             #ccd4e0;
+  --notif-bg:                 #536DFE;
+  --notif-fg:                 #ffffff;
+  --notif-high-priority-bg:   #f39c12;
+  --notif-high-priority-text: #ffffff;
+  --notif-urgent-bg:          #e74c3c;
+  --notif-urgent-text:        #ffffff;
+  --priority-low:             #43A047;
+  --priority-medium:          #F9A825;
+  --priority-high:            #E53935;
+  --transition:               0.3s ease;
 }
 
-/* Dark theme overrides */
 html[data-theme="dark"] {
-  --bg:                  #2d3e50;
-  --fg:                  #eceff1;
-  --accent:              #7986CB;
-  --accent-hover:        #5C6BC0;
-  --card-bg:             #37474F;
-  --shadow-light:        rgba(0,0,0,0.1);
-  --shadow-dark:         rgba(0,0,0,0.3);
-  --input-bg:            #455A64;
-  --input-border:        #607D8B;
-  --notif-bg:            #43A047;
+  --bg:       #2d3e50;
+  --fg:       #eceff1;
+  --accent:   #7986CB;
+  --accent-hover: #5C6BC0;
+  --card-bg:  #37474F;
+  --shadow-light: rgba(0,0,0,0.1);
+  --shadow-dark:  rgba(0,0,0,0.3);
+  --input-bg:      #455A64;
+  --input-border:  #607D8B;
+  --notif-bg:      #43A047;
+  /* keep high/urgent colors same or adjust here */
 }
 
-/* 3) Global & Base */
+/* 3) Global */
 * {
   box-sizing: border-box;
   transition: background-color var(--transition), color var(--transition), transform var(--transition);
 }
-
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -56,16 +55,17 @@ body {
   min-height: 100vh;
 }
 
-/* 4) Container adjusts per screen */
+/* 4) Container */
 .container {
   width: 90%;
+  max-width: 900px;
   margin: 2rem auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* 5) Header & Toggle */
+/* 5) Header */
 header {
   background: var(--accent);
   color: var(--notif-fg);
@@ -97,41 +97,36 @@ header {
   box-shadow: 0 2px 4px var(--shadow-light);
   border-radius: 8px;
 }
-
 #task-form {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   flex: 2;
 }
-
 #task-form input,
 #task-form select,
 #task-form button {
   padding: 0.5rem 0.75rem;
-  border-radius: 4px;
   border: 1px solid var(--input-border);
+  border-radius: 4px;
   background: var(--input-bg);
   color: var(--fg);
 }
-
 #task-form input:focus,
 #task-form select:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(83,109,254,0.2);
 }
-
 #task-form button {
   background: var(--accent);
-  color: var(--notif-fg);
   border: none;
+  color: var(--notif-fg);
   cursor: pointer;
 }
 #task-form button:hover {
   background: var(--accent-hover);
 }
-
 .filters {
   display: flex;
   gap: 0.5rem;
@@ -140,8 +135,8 @@ header {
 .filters input,
 .filters select {
   padding: 0.5rem;
-  border-radius: 4px;
   border: 1px solid var(--input-border);
+  border-radius: 4px;
   background: var(--input-bg);
   color: var(--fg);
 }
@@ -155,7 +150,6 @@ header {
   flex-direction: column;
   gap: 1rem;
 }
-
 .task-item {
   background: var(--card-bg);
   padding: 1rem;
@@ -169,12 +163,10 @@ header {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px var(--shadow-dark);
 }
-
 .task-item.completed .title {
   text-decoration: line-through;
   opacity: 0.6;
 }
-
 .task-details {
   flex: 1;
 }
@@ -217,8 +209,8 @@ header {
 
 /* 10) Notifications */
 @keyframes fadeInOut {
-  0%, 100% { opacity: 0; transform: translateY(-10px); }
-  10%, 90% { opacity: 1; transform: translateY(0); }
+  0%,100% { opacity: 0; transform: translateY(-10px); }
+  10%,90% { opacity: 1; transform: translateY(0); }
 }
 #notification-container {
   position: fixed;
@@ -230,11 +222,12 @@ header {
   pointer-events: none;
 }
 .notification {
-  background: var(--notif-bg);
-  color: var(--notif-fg);
   padding: 0.75rem 1rem;
   border-radius: 4px;
+  box-shadow: 0 2px 4px var(--shadow-dark);
   animation: fadeInOut 4s ease forwards;
+  background: var(--notif-bg);
+  color: var(--notif-fg);
 }
 .notification.high-priority {
   background: var(--notif-high-priority-bg);
@@ -246,22 +239,11 @@ header {
 }
 
 /* 11) Responsive Breakpoints */
-
-/* Mobile: up to 600px */
+/* Mobile (≤600px) */
 @media (max-width: 600px) {
-  .container {
-    width: 95%;
-    margin: 1rem auto;
-  }
-  header {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .controls {
-    flex-direction: column;
-  }
-  #task-form,
-  .filters {
+  header { flex-direction: column; gap: 0.5rem; }
+  .controls { flex-direction: column; }
+  #task-form, .filters {
     width: 100%;
   }
   #task-form input,
@@ -277,18 +259,15 @@ header {
   }
   .buttons {
     margin-top: 0.5rem;
-    width: 100%;
     display: flex;
     justify-content: flex-end;
+    width: 100%;
   }
 }
 
-/* Tablet: 601px to 900px */
+/* Tablet (601–900px) */
 @media (min-width: 601px) and (max-width: 900px) {
-  .container {
-    width: 90%;
-    max-width: 700px;
-  }
+  .container { max-width: 700px; }
   #task-form input,
   #task-form select,
   #task-form button {
@@ -300,12 +279,9 @@ header {
   }
 }
 
-/* Laptop/Desktop: 901px and above */
+/* Desktop (≥901px) */
 @media (min-width: 901px) {
-  .container {
-    width: 80%;
-    max-width: 900px;
-  }
+  .container { max-width: 900px; }
   #task-form input,
   #task-form select {
     flex: 1 1 20%;

@@ -1,4 +1,6 @@
-// —— Theme Persistence & Toggle ——
+// script.js
+
+// —— Theme Toggle & Persistence ——
 const themeToggle = document.getElementById('theme-toggle');
 const savedTheme  = localStorage.getItem('theme');
 const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -11,8 +13,8 @@ function initTheme() {
 initTheme();
 
 themeToggle.addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme');
-  const next    = current === 'dark' ? 'light' : 'dark';
+  const curr = document.documentElement.getAttribute('data-theme');
+  const next = curr === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
   themeToggle.textContent = next === 'dark' ? 'Light Mode' : 'Dark Mode';
@@ -21,10 +23,6 @@ themeToggle.addEventListener('click', () => {
 // —— Notification Utilities ——
 const notifContainer = document.getElementById('notification-container');
 
-/**
- * Show a notification toast with optional duration (ms)
- * and an optional CSS class type ('urgent' or 'high-priority').
- */
 function showNotification(msg, duration = 3000, type = '') {
   const div = document.createElement('div');
   div.className = 'notification';
@@ -34,18 +32,12 @@ function showNotification(msg, duration = 3000, type = '') {
   setTimeout(() => div.remove(), duration);
 }
 
-/**
- * Fire a special alert for high-priority tasks
- */
 function notifyHighPriority(action, task) {
   if (task.priority === 'high') {
     showNotification(`🔥 High-priority task ${action}: "${task.title}"`, 5000, 'high-priority');
   }
 }
 
-/**
- * Fire a special alert for urgent-category tasks
- */
 function notifyUrgentTask(action, task) {
   if (task.category === 'Urgent') {
     showNotification(`🚨 Urgent task ${action}: "${task.title}"`, 5000, 'urgent');
@@ -55,38 +47,34 @@ function notifyUrgentTask(action, task) {
 // —— OOP Classes ——
 class Task {
   constructor(id, title, desc, priority, category, completed = false) {
-    this.id        = id;
-    this.title     = title;
-    this.desc      = desc;
-    this.priority  = priority;
-    this.category  = category;
+    this.id = id;
+    this.title = title;
+    this.desc = desc;
+    this.priority = priority;
+    this.category = category;
     this.completed = completed;
   }
 }
 
 class TaskManager {
   constructor() {
-    this.tasks  = [];
+    this.tasks = [];
     this.nextId = 1;
   }
-
   addTask(title, desc, priority, category) {
     const t = new Task(this.nextId++, title, desc, priority, category);
     this.tasks.push(t);
     return t;
   }
-
   updateTask(id, data) {
     const t = this.tasks.find(x => x.id === id);
     if (!t) return null;
     Object.assign(t, data);
     return t;
   }
-
   deleteTask(id) {
     this.tasks = this.tasks.filter(x => x.id !== id);
   }
-
   filter({ category, search, sort }) {
     let arr = [...this.tasks];
     if (category && category !== 'all') {
@@ -111,7 +99,7 @@ class TaskManager {
   }
 }
 
-// —— App Initialization & Logic ——
+// —— App Logic ——
 const mgr           = new TaskManager();
 const form          = document.getElementById('task-form');
 const listEl        = document.getElementById('task-list');
@@ -125,7 +113,6 @@ function render() {
     search:   searchInput.value,
     sort:     sortPriority.value
   });
-
   listEl.innerHTML = '';
   tasks.forEach(t => {
     const li = document.createElement('li');
@@ -146,41 +133,35 @@ function render() {
         <button class="edit-btn">Edit</button>
         <button class="delete-btn">Delete</button>
       </div>`;
-
     // Delete
     li.querySelector('.delete-btn').onclick = () => {
       mgr.deleteTask(t.id);
       render();
       showNotification('Task deleted');
     };
-
     // Edit
     li.querySelector('.edit-btn').onclick = () => {
-      document.getElementById('task-id').value   = t.id;
-      document.getElementById('title').value     = t.title;
-      document.getElementById('description').value = t.desc;
-      document.getElementById('priority').value  = t.priority;
-      document.getElementById('category').value  = t.category;
+      document.getElementById('task-id').value    = t.id;
+      document.getElementById('title').value      = t.title;
+      document.getElementById('description').value= t.desc;
+      document.getElementById('priority').value   = t.priority;
+      document.getElementById('category').value   = t.category;
     };
-
-    // Complete / Undo
+    // Complete/Undo
     li.querySelector('.complete-btn').onclick = () => {
-      const wasCompleted = t.completed;
-      const updated      = mgr.updateTask(t.id, { completed: !wasCompleted });
+      const was = t.completed;
+      const updated = mgr.updateTask(t.id, { completed: !was });
       render();
-      
-      // fire urgent **and** high-priority if they apply
-      notifyUrgentTask(wasCompleted ? 'marked incomplete' : 'completed', updated);
-      notifyHighPriority(wasCompleted ? 'marked incomplete' : 'completed', updated);
-
-      showNotification(wasCompleted ? 'Marked incomplete' : 'Task completed');
+      notifyUrgentTask(was ? 'marked incomplete' : 'completed', updated);
+      notifyHighPriority(was ? 'marked incomplete' : 'completed', updated);
+      showNotification(was ? 'Marked incomplete' : 'Task completed');
     };
 
     listEl.append(li);
   });
 }
 
-// Form Submit (Create/Update)
+// Form submit: Create or Update
 form.addEventListener('submit', e => {
   e.preventDefault();
   const id       = +document.getElementById('task-id').value;
@@ -193,7 +174,6 @@ form.addEventListener('submit', e => {
     showNotification('Title & description required');
     return;
   }
-
   if (id) {
     const updated = mgr.updateTask(id, { title, desc, priority, category });
     notifyUrgentTask('updated', updated);
@@ -205,16 +185,13 @@ form.addEventListener('submit', e => {
     notifyHighPriority('added', added);
     showNotification('Task added');
   }
-
   form.reset();
   document.getElementById('task-id').value = '';
   render();
 });
 
 // Filters & Search
-[filterCategory, sortPriority].forEach(el =>
-  el.addEventListener('change', render)
-);
+[filterCategory, sortPriority].forEach(el => el.addEventListener('change', render));
 searchInput.addEventListener('input', render);
 
 // Initial render
